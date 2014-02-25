@@ -4,7 +4,13 @@ window.BECOOL = function () {
 
 BECOOL.prototype.initDestroyListeners = function ($el) {
 	$el.on('murdered', function(event) {
-		window.location = event.target;
+		var href;
+		if (event.target.dataset.kref) {
+			href = event.target.dataset.kref;
+		} else {
+			href = event.target.href;
+		}
+		window.location = href;
 	});
 }
 

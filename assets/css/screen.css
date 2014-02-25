@@ -132,10 +132,41 @@ html,body{height:100%;width:100%;}
 
 body {
 	background: black;
+	font-size: 40px;
 }
 
 .protection {
     padding:1px;
     border:1px solid white;
     display:inline-block;
+}
+.narration { 
+	padding:90px;
+	text-align:center;
+}
+
+a, a:visited {
+	color: cornflowerblue;
+}
+
+header {
+	text-align: center; 
+	padding: 90px;
+	transition: 1s;
+	position: absolute;
+	width: 100%;
+	top: 0;
+	opacity: 0;
+	box-sizing: border-box;
+}
+
+header.selected {
+	opacity: 1;
+}
+
+.cool {
+	position:fixed; 
+	bottom: 8%; 
+	left: 50%; 
+	margin-left: -55px;
 }

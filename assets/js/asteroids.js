@@ -287,7 +287,7 @@ function Asteroids() {
 		h = document.body.clientHeight;
 	}
 	
-	var playerWidth = 20, playerHeight = 30;
+	var playerWidth = 20, playerHeight = 40;
 	
 	var playerVerts = [[-1 * playerHeight/2, -1 * playerWidth/2], [-1 * playerHeight/2, playerWidth/2], [playerHeight/2, 0]];
 	
@@ -302,7 +302,7 @@ function Asteroids() {
 	var acc			  = 300;
 	var maxSpeed	  = 18;
 	var rotSpeed	  = 60; // one rotation per second
-	var bulletSpeed	  = 40;
+	var bulletSpeed	  = 50;
 	var particleSpeed = 400;
 	
 	var timeBetweenFire = 10000; // how many milliseconds between shots
@@ -330,7 +330,12 @@ function Asteroids() {
 
 	addStylesheet(".ASTEROIDSBLINK .ASTEROIDSYEAHENEMY", "outline: 2px dotted red;");
 	
-	this.pos = new Vector(100, 100);
+	// Center on screen
+	var left, bottom;
+	left = document.body.clientWidth - playerWidth/2;
+	bottom = document.body.clientHeight - playerHeight/2;
+	
+	this.pos = new Vector(left/2, bottom/2);
 	this.lastPos = false;
 	this.vel = new Vector(0, 0);
 	this.dir = new Vector(0, 1);
@@ -674,7 +679,8 @@ function Asteroids() {
 	this.gameContainer.appendChild(this.canvas);
 	this.ctx = this.canvas.getContext("2d");
 	
-	this.ctx.fillStyle = "black";
+	//Bullet Fill Style
+	this.ctx.fillStyle = "white";
 	this.ctx.strokeStyle = "black";
 	
 	// navigation wrapper element

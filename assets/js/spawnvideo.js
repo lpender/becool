@@ -24,6 +24,7 @@
 		widthReduce : 0.75,
         activeToken: null,
 		wait : false,
+		noFrames : 0, // how many times has winFallback checked and found no videos?
 		lastDestroyedVideoSize: null,
 
         initialize : function () {
@@ -91,6 +92,16 @@
                     onStateChange : this.stateChange
                 }
             });
+			
+			// if player times out, just 'win'
+			var playerTimeout = setTimeout(function() {
+				instance.win();
+			}, 10000);
+			
+			$(document).on('playerReady', function(event) {
+				console.log('ready!', event);
+				clearTimeout(playerTimeout);
+			});
 
 			// Give it gravity
             window.gr.add(newId.id, {
@@ -112,7 +123,7 @@
             instance.activeIds.push(newId);
 			
 			// Hide it
-            $('#' + newId.id).css('display', 'none')[0].addEventListener('murdered', function (event) {
+            $('#' + newId.id)[0].addEventListener('murdered', function (event) {
             	instance.died(event);
             });
 		
@@ -201,6 +212,8 @@
         playerReady: function (event) {
             event.target.playVideo();
             event.target.setVolume(50);
+			$(document).trigger('playerReady');
+			
 			this.wait = false;
         },
 
@@ -220,7 +233,19 @@
                     $('#' + instance.activeIds[i].id).attr('height', Number($('#' + instance.activeIds[i].id).attr('height')) + 3 );
                 }
             }
-        }
+        },
+		
+		winFallback: function () {
+			if( $('iframe').length === 0 ) {
+				this.noFrames ++;
+				if (this.noFrames > 3) {
+					this.win();
+					console.log ('shit!', this.lastDestroyedVideoSize);
+				}
+			} else {
+				this.noFrames = 0;
+			}
+		}
     };
 
     window.vidTokens = [];
@@ -254,6 +279,7 @@
         yGravity: 0
     });
 
+	/*
     window.gr.add("audio-controls", {
         fixed: false,
         restitution:0.7,
@@ -263,6 +289,7 @@
     });
     window.gr.torque("audio-controls", 100000);
     window.gr.force("audio-controls", 0, 100000);
+	*/
 
     function onYouTubeIframeAPIReady() {
 		// Spawn it
